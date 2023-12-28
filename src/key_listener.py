@@ -1,6 +1,6 @@
 import threading
-import time
 from pynput import keyboard
+import time
 
 class KeyListener:
     def __init__(self):
@@ -14,10 +14,8 @@ class KeyListener:
             None
         """
         self.keys = []
-        self.listener = keyboard.Listener(on_press=self.on_press)
-        self.listener_thread = None
-        self.lock = threading.Lock()
-
+        self.listener = None
+      
     def on_press(self, key):
         """
         Adds the pressed key to the list of keys if it is a character key.
@@ -55,8 +53,8 @@ class KeyListener:
         Returns:
             None
         """
-        self.listener_thread = threading.Thread(target=self.listener.run)
-        self.listener_thread.start()
+        self.listener = keyboard.Listener(on_press=self.on_press)
+        self.listener.start()  # Run the listener in the main thread
 
     def stop_listener(self):
         """
@@ -71,7 +69,6 @@ class KeyListener:
             None
         """
         self.listener.stop()
-        self.listener_thread.join()
 
     def read_keys(self, timeout=60):
         """
@@ -83,20 +80,11 @@ class KeyListener:
         Returns:
             str: A string containing all the keys read from the listener.
         """
-        with self.lock:
-            self.start_listener()
-            time.sleep(timeout)
-            self.stop_listener()
-            return ''.join(self.keys)
-    
-    def get_last_keys(self):
-        """
-        Returns a string that is the concatenation of all the keys in the `self.keys` list.
+        self.start_listener()
+        time.sleep(timeout)
+        self.stop_listener()
 
-        Parameters:
-            self (object): The instance of the class.
+        return ''.join(self.keys)
 
-        Returns:
-            str: The string that is the concatenation of all the keys.
-        """
+    def get_keys(self):
         return ''.join(self.keys)
