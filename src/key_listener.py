@@ -15,7 +15,8 @@ class KeyListener:
         """
         self.keys = []
         self.listener = keyboard.Listener(on_press=self.on_press)
-        self.listener_thread = threading.Thread(target=self.listener.run)
+        self.listener_thread = None
+        self.lock = threading.Lock()
 
     def on_press(self, key):
         """
@@ -28,13 +29,17 @@ class KeyListener:
             None
         """
         try:
+            cont = 0
             if key == keyboard.Key.space:
                 self.keys.append(' ')
+                cont += 1
             else:
                 self.keys.append(key.char)
+                cont += 1
             # Space between keys to improve readability
-            if len(self.keys) > 70:
+            if cont > 70:
                 self.keys.append('\n')
+                cont = 0
         except AttributeError:
             pass
 
@@ -50,6 +55,7 @@ class KeyListener:
         Returns:
             None
         """
+        self.listener_thread = threading.Thread(target=self.listener.run)
         self.listener_thread.start()
 
     def stop_listener(self):
@@ -77,10 +83,20 @@ class KeyListener:
         Returns:
             str: A string containing all the keys read from the listener.
         """
-        self.start_listener()
+        with self.lock:
+            self.start_listener()
+            time.sleep(timeout)
+            self.stop_listener()
+            return ''.join(self.keys)
+    
+    def get_last_keys(self):
+        """
+        Returns a string that is the concatenation of all the keys in the `self.keys` list.
 
-        time.sleep(timeout)
+        Parameters:
+            self (object): The instance of the class.
 
-        self.stop_listener()
-
+        Returns:
+            str: The string that is the concatenation of all the keys.
+        """
         return ''.join(self.keys)

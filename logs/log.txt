@@ -1,36 +1,56 @@
-2023-12-28 16:31:54 
+---- KEYLOGGER LOG ----
+DATE -> 2023-12-28 16:44:58
 # ---------------------------------------------- #
- Pues eel sitioo se llamaba tapas&sushicroeoestaba bueno, pero sin m´asme he pedido un p 
-# ---------------------------------------------- #
-
-
-2023-12-28 16:32:14 
-# ---------------------------------------------- #
- kesito ejejejEs que no esnno normales muy pequeño para todo estosolo espe 
+ Cuando sepa´ais me decis bebesayo voya  a leer un pocoEsta noche v´ais a estar?para pasarme un momento a darla a lgo a las primicasestoy metiendo una contraseña en un registro de usuario, es una prueba, hola marta
 # ---------------------------------------------- #
 
-
-2023-12-28 16:32:35 
+DATE -> 2023-12-28 16:46:15
 # ---------------------------------------------- #
- o que no al menos, al ser tan pequeño, no se acuerde ni le quede nada de mauyor 
-# ---------------------------------------------- #
-
-
-2023-12-28 16:33:25 
-# ---------------------------------------------- #
- hit´u pasatelo bien luego bebita jejeje 
+ ow  tto send mails using pythionokey
 # ---------------------------------------------- #
 
-
-2023-12-28 16:33:47 
+DATE -> 2023-12-28 16:47:16
 # ---------------------------------------------- #
- ff 
-# ---------------------------------------------- #
-
-
-2023-12-28 16:34:10 
-# ---------------------------------------------- #
- .f sI 
+ acif i interrumpt this program, i want to write the last keys to ethe log , how to do it?vac
 # ---------------------------------------------- #
 
+DATE -> 2023-12-28 16:49:14
+# ---------------------------------------------- #
+ his is where i get the jeyskeys:vbut do the thing whit the signal to get the last jeys keys and wirte¡rtitite them on the log
+# ---------------------------------------------- #
+
+DATE -> 2023-12-28 16:50:14
+# ---------------------------------------------- #
+ ut you have to do it in the listener right?maybe that code must be i
+# ---------------------------------------------- #
+
+DATE -> 2023-12-28 16:51:14
+# ---------------------------------------------- #
+  the other file and you shuould add a getkeysc
+# ---------------------------------------------- #
+
+DATE -> 2023-12-28 16:52:35
+# ---------------------------------------------- #
+ vqashwoow to handle if ctrl + c is prsressed, or ctrl + z
+# ---------------------------------------------- #
+
+DATE -> 2023-12-28 16:53:42
+# ---------------------------------------------- #
+ ci want this included in the main to wr call then writr e log:v
+# ---------------------------------------------- #
+
+DATE -> 2023-12-28 17:01:56
+# ---------------------------------------------- #
+ Voy a haecer algunas pruebas para saber si el key logger esta funcionando correctamente, para ello voy a escribir un ratete a ver que pasa, es. Esto te lo voy a apapasar a ti martita, osea que ola ola olitaaa, te cCOMO EL CULO
+# ---------------------------------------------- #
+
+DATE -> 2023-12-28 17:02:57
+# ---------------------------------------------- #
+ ow to sen ad an ema m email with python +si ese escriben caracteres extraños es porqu e cuando una o esicirberube, se equioovoca y borra, por eso asalie raroc
+# ---------------------------------------------- #
+
+DATE -> 2023-12-28 17:03:59
+# ---------------------------------------------- #
+ vUn programita que corre ej sn segundo plano y guarda en un log todo lo que ewscribesle voy a meter p´orxm m´as cosas guarras jejejejemake a mcommcimommit message for 
+# ---------------------------------------------- #
 
