@@ -45,7 +45,7 @@ def format_message(content: str) -> str:
     date = 'DATE: {}'.format(datetime.today().strftime('%Y-%m-%d %H:%M:%S'))
     sep = '\n# ---------------------------------------------- #\n'
 
-    return '{date}{sep} {content}{sep}\n'.format(date=date, content=content, sep=sep)
+    return '{date}{sep}{content}{sep}\n'.format(date=date, content=content, sep=sep)
 
 def handle_keyboard_interrupt(key_listener):
     typed_keys = key_listener.get_keys()
