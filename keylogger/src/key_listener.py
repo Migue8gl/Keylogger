@@ -33,6 +33,9 @@ class KeyListener:
             elif hasattr(key, 'char'):
                 self.keys.append(key.char)
                 cont += 1
+            elif hasattr(key, 'name') and key.name is not None:
+                self.keys.append(f'[{key.name.upper()}]')
+                cont += 1
 
             # Space between keys to improve readability
             if cont > 70:
