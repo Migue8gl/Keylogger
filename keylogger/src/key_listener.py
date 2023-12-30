@@ -27,10 +27,7 @@ class KeyListener:
         """
         try:
             cont = 0
-            if key == keyboard.Key.space:
-                self.keys.append(' ')
-                cont += 1
-            elif hasattr(key, 'char'):
+            if hasattr(key, 'char'):
                 self.keys.append(key.char)
                 cont += 1
             elif hasattr(key, 'name') and key.name is not None:
