@@ -1,2 +1,2 @@
-# keylogger
-Little project to learn how to code a keylogger in Python.
+# Python scripts
+Repository to store some Python scripts. The main goal is to learn and develop new things. 
