@@ -1,3 +1,5 @@
 logs
 imgs
-credentials/
+credentials_telegram.json
+credentials.py
+

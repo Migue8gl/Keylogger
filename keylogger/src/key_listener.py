@@ -84,7 +84,10 @@ class KeyListener:
         time.sleep(timeout)
         self.stop_listener()
 
-        return ''.join(self.keys)
+        keys = self.get_keys()
+        self.keys = []
+
+        return keys
 
     def get_keys(self):
         return ''.join(self.keys)
