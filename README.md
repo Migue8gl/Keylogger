@@ -3,9 +3,12 @@ Repository to store some Python scripts. The main goal is to learn and develop n
 
 ## Keylogger
 
+### Project Disclaimer:
+This project is undertaken solely for educational purposes, and there is no intention of engaging in any malicious activities. It is created with the sole purpose of learning and improving skills. Any use of the project for harmful or unethical actions is strictly discouraged.
+
 The keylogger works as follows:
 When executed, it will run until it kills the process or interrupts it. It works by logging all keystrokes and captures screenshots every minute by default. The script saves the screenshots and logs in the *logs* and *imgs* directories. 
-### **Types of Logs:**
+### Types of Logs:
 There are two types of logs:
 - **Raw:** This type of log records all the keystrokes in the order the user inputs them.
 - **Processed:** This type of log only records alphanumeric characters, with the goal of storing messages in a readable format.
