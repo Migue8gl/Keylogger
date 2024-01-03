@@ -14,7 +14,6 @@ import requests
 import json
 import io
 import credentials
-import daemon
 
 # TODO threading para soportar capturas de pantalla cada x tiempo y captura de teclado cada y
 # TODO error handling with the primary goal of not stopping the program
