@@ -6,7 +6,7 @@ Repository to store some Python scripts. The main goal is to learn and develop n
 ### Project Disclaimer:
 This project is undertaken solely for educational purposes, and there is no intention of engaging in any malicious activities. It is created with the sole purpose of learning and improving skills. Any use of the project for harmful or unethical actions is strictly discouraged.
 
-### Usability
+### Description
 The keylogger works as follows:
 If executed, it will run until the process is killed or interrupted. It works by logging all keystrokes and captures screenshots every minute by default. The script saves the screenshots and logs in the *logs* and *imgs* directories. 
 
