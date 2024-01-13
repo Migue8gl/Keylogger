@@ -6,7 +6,6 @@ from PIL import ImageGrab
 import re
 import requests
 import json
-import io
 import credentials
 import os
 import sys
