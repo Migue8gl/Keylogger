@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime
 import re
 import os
 from constants import LOGS_DIR 

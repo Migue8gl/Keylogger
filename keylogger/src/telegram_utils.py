@@ -1,7 +1,7 @@
 import os
 import json
 import requests
-import datetime
+from datetime import datetime
 import io
 import credentials
 from constants import CREDENTIAL_FILE_TELEGRAM, CREDENTIAL_DIR
