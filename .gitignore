@@ -3,8 +3,6 @@ imgs
 credentials_telegram.json
 credentials.py
 bin/
-<<<<<<< HEAD
 env
-=======
 __pycache__
->>>>>>> 42eabe9af583587c5079fb5c1321dc40bfb28362
+
