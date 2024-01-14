@@ -46,6 +46,17 @@ TIME_OUT = 60 # period in seconds to capture data
 # --------------------- FUNCTIONS --------------------- #
 
 def create_autostart_entry():
+    """
+    Creates an autostart entry for the application.
+
+    This function creates an autostart entry for the application by checking if the desktop entry file already exists. If the file does not exist, it creates a new file with the specified content and prints the path of the created autostart entry. If the file already exists, it prints the path of the existing autostart entry.
+
+    Parameters:
+        None
+
+    Returns:
+        None
+    """
     autostart_path = os.path.expanduser(AUTOSTART_DIR)
     if not os.path.exists(autostart_path):
         os.makedirs(autostart_path)
