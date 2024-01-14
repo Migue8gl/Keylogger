@@ -4,5 +4,8 @@ credentials_telegram.json
 credentials.py
 bin/
 env
+build/
+dist/
+main.spec
 __pycache__
 
