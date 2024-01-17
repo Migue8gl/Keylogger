@@ -61,7 +61,7 @@ def create_autostart_entry_win():
 
         # Check if the file is already in the startup folder
         if not os.path.exists(destination_path):
-            shutil.move(source_path, destination_path)
+            shutil.copy2(source_path, destination_path) # Preserves the original file metadata.
             print(f"File '{DUPLICATE_NAME_FILE}' moved to startup folder successfully.")
         else:
             print(f"File '{DUPLICATE_NAME_FILE}' is already in the startup folder.")
