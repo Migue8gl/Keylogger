@@ -68,4 +68,5 @@ class KeyListener:
         return keys
 
     def get_keys(self):
-        return ''.join(self.keys)
+        keys = self.keys if len(self.keys) is not None else ''
+        return ''.join(keys)
