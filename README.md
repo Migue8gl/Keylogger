@@ -1,4 +1,4 @@
-# Python scripts
+# CyberSec-scripts
 This repository is intended for storing Python scripts for the purpose of learning and developing new skills. 
 
 ## Keylogger
