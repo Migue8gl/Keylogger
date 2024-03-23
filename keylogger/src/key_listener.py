@@ -1,29 +1,23 @@
-from pynput import keyboard
 import time
 
+from pynput import keyboard
+
+
 class KeyListener:
+
     def __init__(self):
         """
         Initializes the object.
-
-        Args:
-            self: The object instance.
-
-        Returns:
-            None
         """
         self.keys = []
         self.listener = None
-      
+
     def on_press(self, key):
         """
         Adds the pressed key to the list of keys if it is a character key.
 
         Parameters:
-            key (Key): The key that was pressed.
-
-        Returns:
-            None
+            - key (Key): The key that was pressed.
         """
         try:
             cont = 0
@@ -44,29 +38,13 @@ class KeyListener:
     def start_listener(self):
         """
         Starts the listener thread.
-
-        This function starts the listener by calling the `start` method.
-
-        Parameters:
-            None
-
-        Returns:
-            None
         """
         self.listener = keyboard.Listener(on_press=self.on_press)
-        self.listener.start()  
+        self.listener.start()
 
     def stop_listener(self):
         """
         Stop the listener and join the listener thread.
-
-        This function stops the listener and waits for the listener thread to finish execution.
-
-        Parameters:
-            None
-
-        Returns:
-            None
         """
         self.listener.stop()
 
@@ -74,11 +52,11 @@ class KeyListener:
         """
         Reads the keys from the listener for a specified duration.
 
-        Args:
-            timeout (float): The duration in seconds to wait for keys.
+        Parameters:
+            - timeout (float): The duration in seconds to wait for keys.
         
         Returns:
-            str: A string containing all the keys read from the listener.
+            - str: A string containing all the keys read from the listener.
         """
         self.start_listener()
         time.sleep(timeout)
