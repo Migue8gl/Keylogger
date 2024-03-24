@@ -134,7 +134,9 @@ def take_screenshot():
             image_number += 1
 
         if not is_windows():
-            display = os.system('echo $DISPLAY')
+            display = os.getenv('DISPLAY')
+            if not display:
+                display = ':0'
             im = ImageGrab.grab(xdisplay=display)
         else:
             im = ImageGrab.grab()
