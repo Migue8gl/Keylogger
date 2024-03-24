@@ -2,6 +2,7 @@ import os
 import shutil
 import sys
 
+import PIL as ImageGrab
 from constants import (
     AUTOSTART_CONTENT,
     AUTOSTART_DIR,
@@ -10,7 +11,6 @@ from constants import (
     IMG_DIR,
     IMG_FILE,
 )
-from PIL import ImageGrab
 
 
 def is_windows():
@@ -130,11 +130,14 @@ def take_screenshot():
             print("Directory {} created successfully!".format(img_dir))
 
         image_number = 1
-        while os.path.isfile(os.path.join(img_dir, '{}{}.png'.format(IMG_FILE, image_number))):
+        while os.path.isfile(
+                os.path.join(img_dir,
+                             '{}{}.png'.format(IMG_FILE, image_number))):
             image_number += 1
 
         im = ImageGrab.grab()
-        image_name = os.path.join(img_dir, '{}{}.png'.format(IMG_FILE, image_number))
+        image_name = os.path.join(img_dir,
+                                  '{}{}.png'.format(IMG_FILE, image_number))
         im.save(image_name, 'png')
         print("Image saved successfully at:", image_name)
 
@@ -142,5 +145,3 @@ def take_screenshot():
     except Exception as e:
         print(e)
         return None
-
-
