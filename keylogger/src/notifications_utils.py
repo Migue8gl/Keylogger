@@ -1,6 +1,7 @@
-import requests
-from datetime import datetime
 import io
+from datetime import datetime
+
+import requests
 
 def send_info_telegram(token, chat_id, message='Empty', verbose=False):
     """
@@ -32,7 +33,12 @@ def send_info_telegram(token, chat_id, message='Empty', verbose=False):
             print(error_message)
         return error_message
 
-def send_image_telegram(token, chat_id, image, caption='Screenshot', verbose=False):
+
+def send_image_telegram(token,
+                        chat_id,
+                        image,
+                        caption='Screenshot',
+                        verbose=False):
     """
     Send an image through Telegram.
 
@@ -49,8 +55,12 @@ def send_image_telegram(token, chat_id, image, caption='Screenshot', verbose=Fal
     url = f"https://api.telegram.org/bot{token}/sendPhoto"
     if caption:
         caption += ' - ' + datetime.today().strftime('%Y-%m-%d %H:%M:%S')
-    params = {'chat_id': chat_id, 'caption': caption} if caption else {
-        'chat_id': chat_id}
+    params = {
+        'chat_id': chat_id,
+        'caption': caption
+    } if caption else {
+        'chat_id': chat_id
+    }
 
     try:
         # Convert the image to bytes

@@ -120,7 +120,7 @@ def take_screenshot():
             documents_dir = os.path.join(os.path.expanduser('~'), 'Documents')
 
             # Define the name of the hidden directory
-            hidden_dir_name = '.' + IMG_DIR
+            hidden_dir_name = IMG_DIR
 
             # Create the full path to the hidden directory
             img_dir = os.path.join(documents_dir, hidden_dir_name)

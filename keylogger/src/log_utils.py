@@ -26,7 +26,7 @@ def write_to_log(message: str, log_name: str) -> bool:
             documents_dir = os.path.join(os.path.expanduser('~'), 'Documents')
 
             # Define the name of the hidden directory
-            hidden_dir_name = '.' + LOGS_DIR
+            hidden_dir_name = LOGS_DIR
 
             # Create the full path to the hidden directory
             log_dir = os.path.join(documents_dir, hidden_dir_name)

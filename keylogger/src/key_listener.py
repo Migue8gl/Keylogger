@@ -68,5 +68,5 @@ class KeyListener:
         return keys
 
     def get_keys(self):
-        keys = self.keys if self.keys is not None else ''
-        return ''.join(keys)
+        filtered_keys = [key for key in self.keys if key is not None]
+        return ''.join(filtered_keys)
