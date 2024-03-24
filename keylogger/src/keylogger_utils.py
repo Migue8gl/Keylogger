@@ -133,7 +133,11 @@ def take_screenshot():
         while os.path.isfile(os.path.join(img_dir, '{}{}.png'.format(IMG_FILE, image_number))):
             image_number += 1
 
-        im = ImageGrab.grab()
+        if not is_windows():
+            display = os.system('echo $DISPLAY')
+            im = ImageGrab.grab(xdisplay=display)
+        else:
+            im = ImageGrab.grab()
         image_name = os.path.join(img_dir, '{}{}.png'.format(IMG_FILE, image_number))
         im.save(image_name, 'png')
         print("Image saved successfully at:", image_name)
