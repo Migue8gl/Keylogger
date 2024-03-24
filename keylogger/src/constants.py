@@ -24,4 +24,4 @@ Comment[en_GB]=
 Comment=
 """
 
-TIME_OUT = 5  # period in seconds to capture data
+TIME_OUT = 60  # period in seconds to capture data
