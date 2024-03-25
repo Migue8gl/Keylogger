@@ -2,8 +2,13 @@ import io
 from datetime import datetime
 
 import requests
+from constants import VERBOSE
 
-def send_info_telegram(token, chat_id, message='Empty', verbose=False):
+
+def send_info_telegram(token: str,
+                       chat_id: str,
+                       message: str = 'Empty',
+                       verbose: bool = VERBOSE) -> dict:
     """
     Send a message through Telegram.
 
@@ -14,7 +19,7 @@ def send_info_telegram(token, chat_id, message='Empty', verbose=False):
         - verbose (bool): If True, print the JSON response. Default is False.
 
     Returns:
-        - dict: The JSON response from the Telegram API.
+        - json_response/error_message (dict): The JSON response from the Telegram API.
     """
 
     url = f"https://api.telegram.org/bot{token}/sendMessage"
@@ -34,11 +39,11 @@ def send_info_telegram(token, chat_id, message='Empty', verbose=False):
         return error_message
 
 
-def send_image_telegram(token,
-                        chat_id,
-                        image,
-                        caption='Screenshot',
-                        verbose=False):
+def send_image_telegram(token: str,
+                        chat_id: str,
+                        image: io.BytesIO,
+                        caption: str = 'Screenshot',
+                        verbose: bool = VERBOSE) -> dict:
     """
     Send an image through Telegram.
 
@@ -50,7 +55,7 @@ def send_image_telegram(token,
         - verbose (bool): If True, print the JSON response. Default is False.
 
     Returns:
-        - dict: The JSON response from the Telegram API.
+        - json_response/error_message (dict): The JSON response from the Telegram API.
     """
     url = f"https://api.telegram.org/bot{token}/sendPhoto"
     if caption:

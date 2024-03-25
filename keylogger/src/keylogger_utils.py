@@ -1,6 +1,7 @@
 import os
 import shutil
 import sys
+from typing import Optional
 
 import PIL as ImageGrab
 from constants import (
@@ -10,10 +11,11 @@ from constants import (
     DUPLICATE_NAME_FILE,
     IMG_DIR,
     IMG_FILE,
+    VERBOSE,
 )
 
 
-def is_windows():
+def is_windows() -> bool:
     """
     https://stackoverflow.com/questions/1854/how-to-identify-which-os-python-is-running-on
     https://stackoverflow.com/questions/1325581/how-do-i-check-if-im-running-on-windows-in-python
@@ -21,7 +23,7 @@ def is_windows():
     Check if the current operating system is Windows.
 
     Returns:
-        - bool: True if the current operating system is Windows, False otherwise.
+        - (bool): True if the current operating system is Windows, False otherwise.
     """
     return os.name == 'nt'
 
@@ -57,15 +59,18 @@ def create_autostart_entry_win():
             shutil.copy2(
                 source_path,
                 destination_path)  # Preserves the original file metadata.
-            print(
-                f"File '{DUPLICATE_NAME_FILE}' moved to startup folder successfully."
-            )
+            if VERBOSE:
+                print(
+                    f"File '{DUPLICATE_NAME_FILE}' moved to startup folder successfully."
+                )
         else:
-            print(
-                f"File '{DUPLICATE_NAME_FILE}' is already in the startup folder."
-            )
+            if VERBOSE:
+                print(
+                    f"File '{DUPLICATE_NAME_FILE}' is already in the startup folder."
+                )
     else:
-        print("Oops, couldn't look up stuff in os.environ")
+        if VERBOSE:
+            print("Oops, couldn't look up stuff in os.environ")
 
 
 def create_autostart_entry_linux():
@@ -97,21 +102,20 @@ def create_autostart_entry_linux():
         with open(desktop_entry_path, 'w') as desktop_entry_file:
             desktop_entry_file.write(AUTOSTART_CONTENT)
 
-        print(f'Autostart entry created at: {desktop_entry_path}')
+        if VERBOSE:
+            print(f'Autostart entry created at: {desktop_entry_path}')
     else:
-        print(f'Autostart entry already exists at: {desktop_entry_path}')
+        if VERBOSE:
+            print(f'Autostart entry already exists at: {desktop_entry_path}')
 
 
-def take_screenshot():
+def take_screenshot() -> Optional[bool]:
     """
     Takes a screenshot and saves it as a PNG file in the specified directory.
+    If screenshot cannot be taken, returns None and program will continue.
 
     Returns:
-        - True if the screenshot is successfully taken and saved.
-        - False if an exception occurs during the process.
-
-    Raises:
-        - Exception: If an error occurs while taking or saving the screenshot.
+        - (bool): True if the screenshot is successfully taken and saved, False if an exception occurs during the process.
     """
     try:
         img_dir = IMG_DIR
@@ -127,7 +131,8 @@ def take_screenshot():
 
         if not os.path.exists(img_dir):
             os.makedirs(img_dir)
-            print("Directory {} created successfully!".format(img_dir))
+            if VERBOSE:
+                print("Directory {} created successfully!".format(img_dir))
 
         image_number = 1
         while os.path.isfile(
@@ -136,12 +141,23 @@ def take_screenshot():
             image_number += 1
 
         im = ImageGrab.grab()
+<<<<<<< HEAD
         image_name = os.path.join(img_dir,
                                   '{}{}.png'.format(IMG_FILE, image_number))
         im.save(image_name, 'png')
         print("Image saved successfully at:", image_name)
 
         return im
+=======
+        if im is not None:
+            image_name = os.path.join(
+                img_dir, '{}{}.png'.format(IMG_FILE, image_number))
+            im.save(image_name, 'png')
+            if VERBOSE:
+                print("Image saved successfully at:", image_name)
+            return im
+>>>>>>> tmp
     except Exception as e:
-        print(e)
+        if VERBOSE:
+            print(e)
         return None
