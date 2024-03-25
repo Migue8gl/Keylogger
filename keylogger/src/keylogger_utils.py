@@ -141,14 +141,7 @@ def take_screenshot() -> Optional[bool]:
             image_number += 1
 
         im = ImageGrab.grab()
-<<<<<<< HEAD
-        image_name = os.path.join(img_dir,
-                                  '{}{}.png'.format(IMG_FILE, image_number))
-        im.save(image_name, 'png')
-        print("Image saved successfully at:", image_name)
 
-        return im
-=======
         if im is not None:
             image_name = os.path.join(
                 img_dir, '{}{}.png'.format(IMG_FILE, image_number))
@@ -156,7 +149,6 @@ def take_screenshot() -> Optional[bool]:
             if VERBOSE:
                 print("Image saved successfully at:", image_name)
             return im
->>>>>>> tmp
     except Exception as e:
         if VERBOSE:
             print(e)
