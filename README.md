@@ -19,7 +19,7 @@ There are two types of logs:
 If you want to try it you must implement the following script named **credentials.py** and place it in *src* folder:
 
 ```
-def get_credentials():
+def get_credentials_telegram():
     """
     Return a dictionary containing the necessary credentials for accessing the Telegram API.
 
