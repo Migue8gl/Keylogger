@@ -3,7 +3,9 @@ imgs
 credentials_telegram.json
 credentials.py
 bin/
-env
+venv
+.env
+.keylogger
 build/
 dist/
 main.spec

