@@ -1,7 +1,4 @@
-# CyberSec-scripts
-This repository is intended for storing Python scripts for the purpose of learning and developing new skills. 
-
-## Keylogger
+# Keylogger
 
 ### Project Disclaimer:
 This project is undertaken solely for educational purposes, and there is no intention of engaging in any malicious activities. It is created with the sole purpose of learning and improving skills. Any use of the project for harmful or unethical actions is strictly discouraged.
@@ -16,22 +13,11 @@ There are two types of logs:
 - **Processed:** This type of log only records alphanumeric characters, with the goal of storing messages in a readable format.
 
 ### Credentials
-If you want to try it you must implement the following script named **credentials.py** and place it in *src* folder:
+If you want to try it you must create your **.env** file:
 
 ```
-def get_credentials_telegram():
-    """
-    Return a dictionary containing the necessary credentials for accessing the Telegram API.
-
-    :return: A dictionary with the following keys:
-             - "TOKEN": The access token for the Telegram bot.
-             - "CHAT_ID": The ID of the chat to which the bot will send messages.
-    :rtype: dict
-    """
-    return {
-        "token": token,
-        "chat_id": chat_id
-    }
+TOKEN=XXXXXXXXXXXXXXXX
+CHAT_ID=XXXXX
 ```
 ### Understanding Telegram Bot Credentials
 When working with Telegram bots, two key components are essential for communication: the `token` and the `chat_id`.
